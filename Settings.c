@@ -501,6 +501,8 @@ static bool Settings_read(Settings* this, const char* fileName, unsigned int ini
       } else if (String_eq(option[0], "right_meters")) {
          Settings_readMeters(this, option[1], 1);
          didReadMeters = true;
+      } else if (String_eq(option[0], "vim_mode")) {
+         this->vimMode = atoi(option[1]);
       } else if (String_eq(option[0], "left_meter_modes")) {
          Settings_readMeterModes(this, option[1], 0);
          didReadMeters = true;
@@ -678,6 +680,7 @@ int Settings_write(const Settings* this, bool onCrash) {
    #endif
    printSettingInteger("delay", (int) this->delay);
    printSettingInteger("hide_function_bar", (int) this->hideFunctionBar);
+   printSettingInteger("vim_mode", (int) this->vimMode);
    #ifdef HAVE_LIBHWLOC
    printSettingInteger("topology_affinity", this->topologyAffinity);
    #endif

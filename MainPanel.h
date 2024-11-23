@@ -49,4 +49,6 @@ void MainPanel_setFunctionBar(MainPanel* this, bool readonly);
 
 void MainPanel_delete(Object* object);
 
+HandlerResult MainPanel_eventHandler(Panel *super, int ch);
+
 #endif

@@ -19,6 +19,7 @@ in the source distribution for its full text.
 #include "FunctionBar.h"
 #include "Machine.h"
 #include "Macros.h"
+#include "MainPanel.h"
 #include "Object.h"
 #include "Platform.h"
 #include "Process.h"
@@ -261,6 +262,31 @@ void ScreenManager_run(ScreenManager* this, Panel** lastFocus, int* lastKey, con
       int prevCh = ch;
       ch = Panel_getCh(panelFocus);
 
+      bool remapKeys = false;
+
+      if (settings->vimMode) {
+         if (Panel_eventHandlerFn(panelFocus) == MainPanel_eventHandler) {
+            MainPanel *mainPanel = (MainPanel*)panelFocus;
+            if (!mainPanel->inc->active) {
+               remapKeys = true;
+            }
+         }
+         else {
+            remapKeys = true;
+         }
+      }
+
+      if (remapKeys) {
+         switch (ch) {
+         case 'h': ch = KEY_LEFT; break;
+         case 'j': ch = KEY_DOWN; break;
+         case 'k': ch = KEY_UP; break;
+         case 'l': ch = KEY_RIGHT; break;
+         case 'K': ch = 'k'; break;
+         case 'L': ch = 'l'; break;
+         }
+      }
+
       HandlerResult result = IGNORED;
 #ifdef HAVE_GETMOUSE
       if (ch == KEY_MOUSE && settings->enableMouse) {
@@ -421,7 +447,7 @@ defaultHandler:
          Panel_onKey(panelFocus, ch);
          break;
       }
-   }
+      }
 
    if (lastFocus) {
       *lastFocus = panelFocus;
