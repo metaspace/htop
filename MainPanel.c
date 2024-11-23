@@ -56,7 +56,7 @@ static const char* MainPanel_getValue(Panel* this, int i) {
    return Row_sortKeyString(row);
 }
 
-static HandlerResult MainPanel_eventHandler(Panel* super, int ch) {
+HandlerResult MainPanel_eventHandler(Panel* super, int ch) {
    MainPanel* this = (MainPanel*) super;
    Machine* host = this->state->host;
    Htop_Reaction reaction = HTOP_OK;
